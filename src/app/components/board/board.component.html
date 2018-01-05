@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col-md-12">
+    <button class="btn btn-success" (click)="addProject()">Add project</button>
+    <button class="btn btn-primary" (click)="addWorker()">Add worker</button>
+  </div>
+</div>
+<div class="row">
+  <div [class.col-md-9]="showOptions" [class.col-md-12]="!showOptions">
+    <svg preserveAspectRatio="none">
+      <g></g>
+    </svg>
+  </div>
+  <div class="col-md-3" *ngIf="showOptions">
+    <form>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" aria-describedby="name" placeholder="Name" class="form-control" name="name">
+      </div>
+    </form>
+  </div>
+</div>
+<ngx-smart-modal [identifier]="'modal'">
+  <ng-template #modalContainer></ng-template>
+</ngx-smart-modal>

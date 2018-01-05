@@ -1,0 +1,13 @@
+<h1>Add worker</h1>
+<form>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" aria-describedby="name" placeholder="Name" class="form-control" name="name">
+            </div>
+        </div>
+    </div>
+</form>
+<button type="button" class="btn btn-light" (click)="modalInstance.close()">Cancel</button>
+<button type="button" class="btn btn-primary" (click)="add()">Add</button>
