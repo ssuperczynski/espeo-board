@@ -3,7 +3,6 @@ import {
   Component,
   HostListener,
   OnInit,
-  OnDestroy,
   TemplateRef,
   NgZone,
   ComponentFactoryResolver,
@@ -27,7 +26,7 @@ import { AddProjectComponent } from './add-project/add-project.component';
   styleUrls: ['./board.component.scss'],
   providers: [],
 })
-export class BoardComponent implements OnInit, OnDestroy {
+export class BoardComponent implements OnInit {
   g = new dagreD3.graphlib.Graph().setGraph({});
   render = new dagreD3.render();
   svg: any;
@@ -52,10 +51,6 @@ export class BoardComponent implements OnInit, OnDestroy {
       this.inner = this.svg.select('g');
     });
     this.initWorkflow();
-  }
-
-  ngOnDestroy() {
-    this.componentRef.destroy();
   }
 
   addWorker(template: TemplateRef<any>) {
