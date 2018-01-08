@@ -19,6 +19,7 @@ import {AddProjectComponent} from './add-project/add-project.component';
 import {SVG} from './svg.enum';
 import {DB} from './db.enum';
 import {OBJECTS} from './objects.enum';
+import {EVENT} from './event.enum';
 
 @Component({
   selector: 'app-board',
@@ -33,12 +34,13 @@ export class BoardComponent implements OnInit {
   inner: any;
   showOptions = false;
   asideType: OBJECTS = OBJECTS.worker;
-  private _selectedProject: number = null;
-  private _selectedWorker: number = null;
+  private _selectedProject: string = null;
+  private _selectedWorker: string = null;
   private _selectedEdgeLabel = null;
-  private _selectedEdge: number = null;
-  private _selectedNode: number = null;
+  private _selectedEdge: string = null;
+  private _selectedNode: string = null;
   public labelValue;
+  public nameValue;
   public edges: Array<{ v: string, w: string }>;
   @ViewChild('modalContainer', {read: ViewContainerRef}) container;
   componentRef: ComponentRef<any>;
@@ -83,7 +85,7 @@ export class BoardComponent implements OnInit {
 
   initWorkflow() {
     this.fetchBoard().subscribe(() => {
-      const zoom = d3.behavior.zoom().on('zoom', () => {
+      const zoom = d3.behavior.zoom().on(EVENT.zoom, () => {
         this.inner.attr('transform', 'translate(' + d3.event.translate + ')' +
           'scale(' + d3.event.scale + ')');
       });
@@ -97,7 +99,7 @@ export class BoardComponent implements OnInit {
     this.db.collection(DB.edges).doc(label).set({
       from: this.selectedProject,
       to: this.selectedWorker,
-      label: '160h',
+      time: 160,
     });
     this.resetSelection();
   }
@@ -161,7 +163,7 @@ export class BoardComponent implements OnInit {
           console.log('element: ', node);
           // todo check if node.to and node.from exists, if not catch error
           this.g.setEdge(node.to, node.from, {
-            label: node.label ? node.label : '160h',
+            label: node.time,
             style: 'fill:white; fill-opacity:0; stroke: red; stroke-width: 3px; stroke-dasharray: 5, 5;',
             arrowheadStyle: 'fill: #f66',
             lineInterpolate: 'basis',
@@ -200,8 +202,9 @@ export class BoardComponent implements OnInit {
   bindOnNodeClicked() {
     d3.select('svg')
       .selectAll(SVG.node)
-      .on('click', id => {
+      .on(EVENT.click, id => {
         const node = this.g.node(id);
+        this.nameValue = node.label;
         this.selectedNode = this.selectedNode ? null : id;
         this.edges = this.g.nodeEdges(this.selectedNode);
         this.showAside(OBJECTS.worker);
@@ -221,7 +224,7 @@ export class BoardComponent implements OnInit {
   bindOnEdgePathClicked() {
     d3.select('svg')
       .selectAll(SVG.edgePath)
-      .on('click', (obj, id) => {
+      .on(EVENT.click, (obj, id) => {
         this.showAside(OBJECTS.edge);
         console.log('click edge id:', id);
         console.log('click edge obj:', obj);
@@ -231,14 +234,21 @@ export class BoardComponent implements OnInit {
   bindOnEdgeLabelClicked() {
     d3.select('svg')
       .selectAll(SVG.edgeLabel)
-      .on('click', (label, id) => {
+      .on(EVENT.click, (label, id) => {
         this.showAside(OBJECTS.label);
         this.selectedEdgeLabel = label;
+        const edge = this.g.edge(label.v, label.w);
+        this.labelValue = edge.label;
       });
   }
 
   saveNode() {
-
+    console.log('updating an node', this.selectedNode);
+    // TODO update an edge too
+    // this.db
+    //   .collection(DB.nodes)
+    //   .doc(this.selectedNode)
+    //   .update({label: this.nameValue});
   }
 
   saveLabel() {
@@ -247,7 +257,7 @@ export class BoardComponent implements OnInit {
     this.db
       .collection(DB.edges)
       .doc(label)
-      .update({label: this.labelValue});
+      .update({time: this.labelValue});
   }
 
   unlink(edge) {
@@ -291,27 +301,27 @@ export class BoardComponent implements OnInit {
     this.selectedNode = null;
   }
 
-  get selectedWorker(): number {
+  get selectedWorker(): string {
     return this._selectedWorker;
   }
 
-  set selectedWorker(value: number) {
+  set selectedWorker(value: string) {
     this._selectedWorker = value;
   }
 
-  get selectedProject(): number {
+  get selectedProject(): string {
     return this._selectedProject;
   }
 
-  set selectedProject(value: number) {
+  set selectedProject(value: string) {
     this._selectedProject = value;
   }
 
-  get selectedNode(): number {
+  get selectedNode(): string {
     return this._selectedNode;
   }
 
-  set selectedNode(value: number) {
+  set selectedNode(value: string) {
     this._selectedNode = value;
   }
 

@@ -3,6 +3,7 @@ import {ConfigService} from './configuration.service';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {DB} from '../board/db.enum';
 import {ConfigBusyService} from './configuration-busy.service';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-list',
@@ -14,10 +15,11 @@ export class ListComponent implements OnInit {
   configuration;
   configurationBusy;
   columns = [
-    {key: 'user', title: 'USER'},
-    {key: 'label', title: 'SKILLS'},
-    {key: 'status', title: 'STATUS'},
+    {key: 'label', title: 'USER'},
+    {key: 'type', title: 'SKILLS'},
+    {key: 'sum', title: 'STATUS'},
   ];
+  busyUsers = [];
   data = [
     {user: 'foo', label: 'fullstack', status: 'available'},
     {user: 'foo2', label: 'fullstack', status: 'available'},
@@ -52,10 +54,21 @@ export class ListComponent implements OnInit {
   }
 
   private fetchList() {
-    this.db.collection(DB.nodes, ref => ref.where('type', '==', 'worker'))
-      .valueChanges()
-      .subscribe((event) => {
-        console.log('event: ', event);
+    Observable.zip(
+      this.db.collection(DB.nodes, ref => ref.where('type', '==', 'worker'))
+        .valueChanges(),
+      this.db.collection(DB.edges)
+        .valueChanges()
+    ).subscribe(data => {
+      const users: Array<any> = data[0];
+      const edges: Array<any> = data[1];
+      users.forEach((user) => {
+        user.sum = edges
+          .filter(edge => edge.to === user.label)
+          .map(edge => edge.time)
+          .reduce((acc, val) => acc + val, 0);
       });
+      this.busyUsers = [...users];
+    });
   }
 }
