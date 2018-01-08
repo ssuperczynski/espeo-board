@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Config} from 'ngx-easy-table/src/app/ngx-easy-table/model/config';
 
 @Injectable()
-export class ConfigService {
+export class ConfigBusyService {
   public static config: Config = {
     searchEnabled: true,
     headerEnabled: true,
@@ -14,7 +14,7 @@ export class ConfigService {
     selectRow: false,
     selectCol: false,
     selectCell: false,
-    rows: 5,
+    rows: 10,
     additionalActions: false,
     serverPagination: false,
     isLoading: false,

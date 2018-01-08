@@ -1,13 +1,36 @@
 <h1>Add project</h1>
-<form>
+<form [formGroup]="projectForm"
+      (submit)="add()"
+      autocomplete="off">
   <div class="row">
     <div class="col-md-12">
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" id="name" aria-describedby="name" placeholder="Name" class="form-control" name="name">
+        <input type="text"
+               id="name"
+               autofocus
+               aria-describedby="name"
+               formControlName="name"
+               placeholder="Name"
+               class="form-control"
+               name="name">
+        <small id="nameError"
+               *ngIf="projectForm.get('name').hasError('required') && projectForm.get('name').touched"
+               class="text-danger">
+          Name is required
+        </small>
       </div>
     </div>
   </div>
 </form>
-<button type="button" class="btn btn-light" (click)="modalInstance.close()">Cancel</button>
-<button type="button" class="btn btn-primary" (click)="add()">Add</button>
+<button type="button"
+        class="btn btn-light"
+        (click)="modalInstance.close()">
+  Cancel
+</button>
+<button type="button"
+        class="btn btn-primary pull-right"
+        [disabled]="projectForm.invalid"
+        (click)="add()">
+  Add
+</button>

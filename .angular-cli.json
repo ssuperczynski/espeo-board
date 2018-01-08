@@ -19,8 +19,9 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css",
-        "../node_modules/bootstrap/dist/css/bootstrap.css"
+        "styles.scss",
+        "../node_modules/ngx-easy-table/spectre.css",
+        "../node_modules/ngx-easy-table/spectre-icons.css"
       ],
       "scripts": [
         "../node_modules/graphlib/dist/graphlib.js",

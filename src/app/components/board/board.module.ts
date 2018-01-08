@@ -7,6 +7,7 @@ import { AddWorkerModule } from './add-worker/add-worker.module';
 import { AddWorkerComponent } from './add-worker/add-worker.component';
 import { AddProjectModule } from './add-project/add-project.module';
 import { AddProjectComponent } from './add-project/add-project.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { AddProjectComponent } from './add-project/add-project.component';
     NgxSmartModalModule.forChild(),
     NoopAnimationsModule,
     AddWorkerModule,
-    AddProjectModule
+    AddProjectModule,
+    FormsModule
   ],
   exports: [BoardComponent],
   entryComponents: [AddWorkerComponent, AddProjectComponent],

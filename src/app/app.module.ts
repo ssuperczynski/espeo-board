@@ -1,4 +1,3 @@
-import { ModalModule } from 'ngx-bootstrap/modal';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from 'angularfire2';
@@ -11,6 +10,7 @@ import { BoardModule } from './components/board/board.module';
 import { RouterModule } from '@angular/router';
 import { NgxSmartModalModule, NgxSmartModalService } from 'ngx-smart-modal';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AutofocusModule } from 'angular-autofocus-fix';
 
 const config = {
   apiKey: 'AIzaSyDUUWnElboZX82vwb0jcO1RG5sTFc-M1Tk',
@@ -35,6 +35,7 @@ const config = {
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AngularFirestoreModule,
+    AutofocusModule,
     routing
   ],
   providers: [NgxSmartModalService],

@@ -1,8 +1,23 @@
-<!--<ngx-table [configuration]="configuration"-->
-           <!--[data]="data"-->
-           <!--[columns]="columns"-->
-           <!--[pagination]="pagination"-->
-           <!--[groupRowsBy]="'units'"-->
-           <!--(event)="eventEmitted($event)">-->
-<!--</ngx-table>-->
-LIST
+<div class="row">
+  <div class="col-md-12">
+    <h3>Available users</h3>
+    <ngx-table
+      [configuration]="configuration"
+      [data]="data"
+      [columns]="columns"
+      (event)="eventEmitted($event)">
+    </ngx-table>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-md-12">
+    <h3>Busy users</h3>
+    <ngx-table
+      [configuration]="configurationBusy"
+      [data]="data"
+      [columns]="columns"
+      (event)="eventEmitted($event)">
+    </ngx-table>
+  </div>
+</div>
