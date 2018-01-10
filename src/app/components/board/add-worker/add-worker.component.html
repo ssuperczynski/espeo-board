@@ -21,6 +21,45 @@
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="skills">Skills</label>
+        <input type="text"
+               id="skills"
+               aria-describedby="skills"
+               formControlName="skills"
+               placeholder="Skills"
+               class="form-control"
+               name="skills">
+        <small id="skillsError"
+               *ngIf="workerForm.get('skills').hasError('required') && workerForm.get('skills').touched"
+               class="text-danger">
+          Skills are required
+        </small>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label for="name">Position <small>(frontend, backend, blockchain)</small></label>
+        <input type="text"
+               id="position"
+               autofocus
+               aria-describedby="position"
+               formControlName="position"
+               placeholder="Position"
+               class="form-control"
+               name="position">
+        <small id="positionError"
+               *ngIf="workerForm.get('position').hasError('required') && workerForm.get('position').touched"
+               class="text-danger">
+          Position is required
+        </small>
+      </div>
+    </div>
+  </div>
 </form>
 <button type="button"
         class="btn btn-light"

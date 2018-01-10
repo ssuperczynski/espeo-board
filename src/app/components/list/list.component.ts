@@ -15,30 +15,13 @@ export class ListComponent implements OnInit {
   configuration;
   configurationBusy;
   columns = [
-    {key: 'label', title: 'USER'},
-    {key: 'type', title: 'SKILLS'},
-    {key: 'sum', title: 'STATUS'},
+    {key: 'name', title: 'Name'},
+    {key: 'skills', title: 'Skills'},
+    {key: 'position', title: 'Position'},
+    {key: 'sum', title: 'Working hours'},
   ];
   busyUsers = [];
-  data = [
-    {user: 'foo', label: 'fullstack', status: 'available'},
-    {user: 'foo2', label: 'fullstack', status: 'available'},
-    {user: 'foo3', label: 'front', status: 'available'},
-    {user: 'foo4', label: 'front', status: 'available'},
-    {user: 'foo5', label: 'front', status: 'busy'},
-    {user: 'foo6', label: 'front', status: 'busy'},
-    {user: 'foo7', label: 'fullstack', status: 'busy'},
-    {user: 'foo8', label: 'fullstack', status: 'busy'},
-    {user: 'foo9', label: 'back', status: 'busy'},
-    {user: 'foo10', label: 'back', status: 'busy'},
-    {user: 'foo11', label: 'back', status: 'busy'},
-    {user: 'foo12', label: 'back', status: 'part-time'},
-    {user: 'foo13', label: 'back', status: 'part-time'},
-    {user: 'foo14', label: 'back', status: 'part-time'},
-    {user: 'foo15', label: 'back', status: 'part-time'},
-    {user: 'foo16', label: 'back', status: 'part-time'},
-    {user: 'foo17', label: 'back', status: 'part-time'},
-  ];
+  availableUsers = [];
 
   constructor(private db: AngularFirestore) {
   }
@@ -64,11 +47,13 @@ export class ListComponent implements OnInit {
       const edges: Array<any> = data[1];
       users.forEach((user) => {
         user.sum = edges
-          .filter(edge => edge.to === user.label)
+          .filter(edge => edge.to === user.name)
           .map(edge => edge.time)
           .reduce((acc, val) => acc + val, 0);
       });
       this.busyUsers = [...users];
+      this.availableUsers = [...users].filter(user => user.sum < 80);
+      console.log('this.availableUsers', this.availableUsers);
     });
   }
 }

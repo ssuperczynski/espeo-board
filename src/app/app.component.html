@@ -18,9 +18,23 @@
            href="#">List</a>
       </li>
     </ul>
+    <ul class="navbar-nav">
+      <li class="nav-item pull-right">
+        <input type="checkbox" id="id-name--1" name="set-name" class="switch-input">
+        <label for="id-name--1"
+               (click)="switchLayout()"
+               class="switch-label nav-link">
+          Presentation MODE
+          <span class="toggle--on">On</span><span class="toggle--off">Off</span>
+        </label>
+      </li>
+    </ul>
   </div>
 </nav>
 
-<main role="main" class="container app--body">
+<main role="main"
+      [class.container-fluid]="layoutFluid"
+      [class.container]="!layoutFluid"
+      class="app--body">
   <router-outlet></router-outlet>
 </main>

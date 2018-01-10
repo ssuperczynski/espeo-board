@@ -20,6 +20,7 @@ import {SVG} from './svg.enum';
 import {DB} from './db.enum';
 import {OBJECTS} from './objects.enum';
 import {EVENT} from './event.enum';
+import {Edge, Worker} from './board';
 
 @Component({
   selector: 'app-board',
@@ -150,20 +151,17 @@ export class BoardComponent implements OnInit {
     this.db
       .collection(DB.edges)
       .valueChanges()
-      .subscribe((event: Array<{
-        label: string;
-        type: string;
-      }>) => {
+      .subscribe((event: Array<Edge>) => {
         const edges = this.g.edges();
         edges.forEach((edge) => {
           this.g.removeEdge(edge.v, edge.w);
         });
         console.log('fetching edges: ', event);
-        event.forEach((node: any, key) => {
-          console.log('element: ', node);
+        event.forEach((edge, key) => {
+          console.log('element: ', edge);
           // todo check if node.to and node.from exists, if not catch error
-          this.g.setEdge(node.to, node.from, {
-            label: node.time,
+          this.g.setEdge(edge.to, edge.from, {
+            label: edge.time,
             style: 'fill:white; fill-opacity:0; stroke: red; stroke-width: 3px; stroke-dasharray: 5, 5;',
             arrowheadStyle: 'fill: #f66',
             lineInterpolate: 'basis',
@@ -182,13 +180,10 @@ export class BoardComponent implements OnInit {
     this.db
       .collection(DB.nodes)
       .valueChanges()
-      .subscribe((event: Array<{
-        label: string;
-        type: string;
-      }>) => {
+      .subscribe((event: Array<Worker>) => {
         event.forEach((element, key) => {
-          this.g.setNode(element.label, {
-            label: element.label,
+          this.g.setNode(element.name, {
+            label: element.name,
             type: element.type,
             style: element.type === 'project' ? 'fill: #F5A9A9' : 'fill: #F9D76A',
           });

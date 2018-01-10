@@ -8,4 +8,9 @@ import {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  layoutFluid = false;
+
+  switchLayout() {
+    this.layoutFluid = !this.layoutFluid;
+  }
 }
